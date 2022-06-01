@@ -28,7 +28,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun initComponents() {
         binding.apply {
-
+            tvExpensesHeading = clBalanceContainer.clExpenses.tvHeading
+            tvExpensesLabel = clBalanceContainer.clExpenses.tvLabel
+            tvIncomeHeading = clBalanceContainer.clIncome.tvHeading
+            tvIncomeLabel = clBalanceContainer.clIncome.tvLabel
+            tvBalanceHeading = clBalanceContainer.clBalance.tvHeading
+            tvBalanceLabel = clBalanceContainer.clBalance.tvLabel
         }
     }
 }
