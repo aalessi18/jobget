@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
             tvIncomeLabel = clBalanceContainer.clIncome.tvLabel
             tvBalanceHeading = clBalanceContainer.clBalance.tvHeading
             tvBalanceLabel = clBalanceContainer.clBalance.tvLabel
+            rvTransactions = rvTransactionsView
+            fabAddButton = fabButton
         }
     }
 }
