@@ -1,5 +1,6 @@
 package com.example.jobget
 
+import android.app.Application
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
