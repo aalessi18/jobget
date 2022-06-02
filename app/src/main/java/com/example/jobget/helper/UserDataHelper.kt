@@ -9,9 +9,11 @@ import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date
+import javax.inject.Singleton
 import org.json.JSONArray
 
-object UserDataHelper {
+@Singleton
+class UserDataHelper {
     private val userTransactions = mutableMapOf<String, MutableList<TransactionModel>>()
 
     fun addToTransactions(activity: Activity, date: String, transactionModel: TransactionModel) {
