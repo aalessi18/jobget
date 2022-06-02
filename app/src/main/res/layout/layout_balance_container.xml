@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/cl_expenses"
-        layout="@layout/row_data"
+        layout="@layout/row_balance_container_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +26,7 @@
 
     <include
         android:id="@+id/cl_income"
-        layout="@layout/row_data"
+        layout="@layout/row_balance_container_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +46,7 @@
 
     <include
         android:id="@+id/cl_balance"
-        layout="@layout/row_data"
+        layout="@layout/row_balance_container_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
