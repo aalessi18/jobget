@@ -8,11 +8,15 @@ import com.google.gson.Gson
 import org.json.JSONArray
 
 object UserDataHelper {
-    private val userTransactions = mutableListOf<TransactionModel>()
+    private val userTransactions = mutableMapOf<String, MutableList<TransactionModel>>()
 
-    fun addToTransactions(activity: Activity, transactionModel: TransactionModel) {
+    fun addToTransactions(activity: Activity, date: String, transactionModel: TransactionModel) {
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        userTransactions.add(transactionModel)
+        if (!userTransactions.containsKey(date)) {
+            userTransactions[date] = mutableListOf(transactionModel)
+        } else {
+            userTransactions[date]?.add(transactionModel)
+        }
         val jsonObject = Gson().toJson(userTransactions)
         with(sharedPreferences.edit()) {
             putString("transactions", jsonObject)
