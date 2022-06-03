@@ -6,4 +6,11 @@
     <string name="add_dollar_value">Add dollar value</string>
     <string name="add_transaction_button">add transaction button</string>
     <string name="add_transaction">Add Transaction</string>
+    <string name="cancel">Cancel</string>
+
+    <!--  Spinner dropdown values  -->
+    <string-array name="transaction_type_array">
+        <item>Income</item>
+        <item>Expense</item>
+    </string-array>
 </resources>
