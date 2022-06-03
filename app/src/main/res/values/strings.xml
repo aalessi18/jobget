@@ -4,4 +4,5 @@
     <string name="dollar_sign">$</string>
     <string name="add">Add</string>
     <string name="add_dollar_value">Add dollar value</string>
+    <string name="add_transaction_button">add transaction button</string>
 </resources>

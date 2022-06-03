@@ -28,16 +28,16 @@
 
     <Button
         android:id="@+id/btn_up"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/dp20"
+        android:layout_height="@dimen/dp20"
         android:background="@android:drawable/arrow_up_float"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_down"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/dp20"
+        android:layout_height="@dimen/dp20"
         android:background="@android:drawable/arrow_down_float"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_up" />
