@@ -6,13 +6,12 @@ import com.example.jobget.interfaces.UserDataRepositoryInterface
 import com.example.jobget.model.TransactionModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import org.json.JSONArray
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(private val repository: UserDataRepositoryInterface) :
     ViewModel() {
 
-    fun getTransactions(activity: Activity): JSONArray? {
+    fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
         return repository.getTransactions(activity)
     }
 

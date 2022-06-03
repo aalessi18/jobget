@@ -41,8 +41,10 @@ class MainActivity : AppCompatActivity() {
             tvIncomeLabel = clBalanceContainer.clIncome.tvLabel
             tvBalanceHeading = clBalanceContainer.clBalance.tvHeading
             tvBalanceLabel = clBalanceContainer.clBalance.tvLabel
-            rvTransactions = rvTransactionsView
+            rvTransactions = rvTransactionsContainer
             fabAddButton = fabButton
         }
+        val list = viewModel.getTransactions(this)
+        println(list)
     }
 }

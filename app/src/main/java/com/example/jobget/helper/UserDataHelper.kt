@@ -11,7 +11,6 @@ import java.util.Locale
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.json.JSONArray
 
 @Singleton
 class UserDataHelper @Inject constructor() {
@@ -27,17 +26,18 @@ class UserDataHelper @Inject constructor() {
         addToSharedPreferences(sharedPreferences)
     }
 
-    fun getTransactions(activity: Activity): JSONArray? {
+    fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
         if (userTransactions.isNullOrEmpty()) {
-            val currentDate = SimpleDateFormat("dd/MMM/yyyy", Locale.getDefault()).format(Date())
+            val currentDate = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault()).format(Date())
             userTransactions[currentDate] = mutableListOf(
                 TransactionModel("Income", "1000", TransactionType.INCOME),
                 TransactionModel("Shoes", "70", TransactionType.EXPENSE),
             )
             addToSharedPreferences(sharedPreferences)
         }
-        return sharedPreferences.getString("transactions", null) as JSONArray?
+        val json = sharedPreferences.getString("transactions", null)
+        return Gson().fromJson(json, Map::class.java) as Map<String, List<TransactionModel>>
     }
 
     private fun addToSharedPreferences(sharedPreferences: SharedPreferences) {

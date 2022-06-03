@@ -5,11 +5,10 @@ import com.example.jobget.helper.UserDataHelper
 import com.example.jobget.interfaces.UserDataRepositoryInterface
 import com.example.jobget.model.TransactionModel
 import javax.inject.Inject
-import org.json.JSONArray
 
 
 class UserDataRepositoryImplementation @Inject constructor() : UserDataRepositoryInterface {
-    override fun getTransactions(activity: Activity): JSONArray? {
+    override fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
         return UserDataHelper().getTransactions(activity)
     }
 
