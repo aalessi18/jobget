@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobget.adapter.RowContainerAdapter
 import com.example.jobget.databinding.ActivityMainBinding
+import com.example.jobget.dialog.AddTransactionDialog
 import com.example.jobget.viewmodel.MainActivityViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,10 @@ class MainActivity : AppCompatActivity() {
             tvBalanceLabel = clBalanceContainer.clBalance.tvLabel
             rvTransactions = rvTransactionsContainer
             fabAddButton = fabButton
+            fabAddButton.setOnClickListener {
+                val dialog = AddTransactionDialog(this@MainActivity, this@MainActivity.windowManager.defaultDisplay)
+                dialog.show()
+            }
         }
     }
 
