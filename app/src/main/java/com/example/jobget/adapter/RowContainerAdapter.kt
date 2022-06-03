@@ -2,12 +2,11 @@ package com.example.jobget.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jobget.R
+import com.example.jobget.databinding.RowListDataBinding
 import com.example.jobget.model.TransactionModel
 
 
@@ -21,8 +20,7 @@ class RowContainerAdapter(
         parent: ViewGroup,
         viewType: Int
     ): RowContainerAdapter.RowViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.row_list_data, parent, false)
+        val view = RowListDataBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return RowViewHolder(view)
     }
@@ -40,8 +38,8 @@ class RowContainerAdapter(
         return mapOfTransactions.size
     }
 
-    inner class RowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvDate: TextView = itemView.findViewById(R.id.tv_row_date)
-        val rvTransactionList: RecyclerView = itemView.findViewById(R.id.rv_transactions)
+    inner class RowViewHolder(binding: RowListDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        val tvDate: TextView = binding.tvRowDate
+        val rvTransactionList: RecyclerView = binding.rvTransactions
     }
 }
