@@ -1,6 +1,5 @@
 package com.example.jobget
 
-import android.app.Application
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -36,6 +35,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
+        setViewBindings()
+        shouldSetRecyclerView()
+    }
+
+    private fun setViewBindings() {
         binding.apply {
             tvExpensesHeading = clBalanceContainer.clExpenses.tvHeading
             tvExpensesLabel = clBalanceContainer.clExpenses.tvLabel
@@ -46,6 +50,9 @@ class MainActivity : AppCompatActivity() {
             rvTransactions = rvTransactionsContainer
             fabAddButton = fabButton
         }
+    }
+
+    private fun shouldSetRecyclerView() {
         viewModel.getTransactions(this)?.let {
             val adapter = RowContainerAdapter(this, it)
             rvTransactions.layoutManager = LinearLayoutManager(this)
