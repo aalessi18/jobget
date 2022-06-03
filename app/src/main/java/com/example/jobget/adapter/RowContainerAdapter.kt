@@ -9,9 +9,6 @@ import com.example.jobget.R
 import com.example.jobget.model.TransactionModel
 
 
-// date, list of transactions, list of amounts
-// key is date -> value is key value pair (string, string)
-// Map<String, TransactionModel>
 class RowContainerAdapter(private val mapOfTransactions: Map<String, List<TransactionModel>>) :
     RecyclerView.Adapter<RowContainerAdapter.RowViewHolder>() {
 
@@ -32,19 +29,15 @@ class RowContainerAdapter(private val mapOfTransactions: Map<String, List<Transa
     }
 
     override fun onBindViewHolder(holder: RowContainerAdapter.RowViewHolder, position: Int) {
-//        holder.tvListRowLabel.text = listOfTransactions.keys.toTypedArray()[position]
+        holder.tvDate.text = mapOfTransactions.keys.toTypedArray()[position]
     }
 
     override fun getItemCount(): Int {
         return mapOfTransactions.size
     }
 
-//    override fun getItemViewType(position: Int): Int {
-//        return if (position == 0) ROW_IS_DATE else ROW_IS_TRANSACTION
-//    }
-
     inner class RowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvDate = itemView.findViewById<TextView>(R.id.tv_row_date)
-        val rvTransactionList = itemView.findViewById<RecyclerView>(R.id.rv_transactions)
+        val tvDate: TextView = itemView.findViewById(R.id.tv_row_date)
+        val rvTransactionList: RecyclerView = itemView.findViewById(R.id.rv_transactions)
     }
 }
