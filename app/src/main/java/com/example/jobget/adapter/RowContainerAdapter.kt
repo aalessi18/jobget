@@ -1,22 +1,21 @@
 package com.example.jobget.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobget.R
 import com.example.jobget.model.TransactionModel
 
 
-class RowContainerAdapter(private val mapOfTransactions: Map<String, List<TransactionModel>>) :
+class RowContainerAdapter(
+    private val context: Context,
+    private val mapOfTransactions: Map<String, List<TransactionModel>>
+) :
     RecyclerView.Adapter<RowContainerAdapter.RowViewHolder>() {
-
-    companion object {
-        private const val ROW_IS_DATE = 0
-        private const val ROW_IS_TRANSACTION = 1
-        private const val ROW_IS_DIVIDER = 2
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,7 +28,12 @@ class RowContainerAdapter(private val mapOfTransactions: Map<String, List<Transa
     }
 
     override fun onBindViewHolder(holder: RowContainerAdapter.RowViewHolder, position: Int) {
-        holder.tvDate.text = mapOfTransactions.keys.toTypedArray()[position]
+        val dateKeyString = mapOfTransactions.keys.toTypedArray()[position]
+        holder.tvDate.text = dateKeyString
+        mapOfTransactions[dateKeyString]?.let {
+            holder.rvTransactionList.layoutManager = LinearLayoutManager(context)
+            holder.rvTransactionList.adapter = TransactionAdapter(it)
+        }
     }
 
     override fun getItemCount(): Int {

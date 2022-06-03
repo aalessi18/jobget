@@ -46,12 +46,10 @@ class MainActivity : AppCompatActivity() {
             rvTransactions = rvTransactionsContainer
             fabAddButton = fabButton
         }
-        val list = viewModel.getTransactions(this)
-        list?.let {
-            val adapter = RowContainerAdapter(list)
+        viewModel.getTransactions(this)?.let {
+            val adapter = RowContainerAdapter(this, it)
             rvTransactions.layoutManager = LinearLayoutManager(this)
             rvTransactions.adapter = adapter
         }
-        println(list)
     }
 }
