@@ -39,12 +39,12 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
     private fun initComponents() {
         setViewBindings()
         setBalanceContainerHeadings()
+        setBalanceContainerValues()
     }
 
     override fun onResume() {
         super.onResume()
         setRecyclerViewList()
-        setBalanceContainerValues()
     }
 
     private fun setViewBindings() {
@@ -87,5 +87,6 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
             rvTransactions.adapter = adapter
         }
         rvTransactions.adapter?.notifyDataSetChanged()
+        setBalanceContainerValues()
     }
 }
