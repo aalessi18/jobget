@@ -84,3 +84,18 @@ class UserDataHelper @Inject constructor() {
         }
     }
 }
+
+//            addToSharedPreferences(sharedPreferences)
+//            val jsonObject = Gson().toJson(userTransactions)
+//            val json = sharedPreferences.getString("transactions", null)
+//            val jsonData: MutableMap<String, MutableList<TransactionModel>> = Gson().fromJson(
+//                json,
+//                object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
+//            )
+//
+//            if (jsonData.containsKey(currentDate)) {
+//                val list = jsonData[currentDate]
+//                list?.add(TransactionModel("Income", "500", TransactionType.INCOME),)
+//            } else {
+//
+//            }

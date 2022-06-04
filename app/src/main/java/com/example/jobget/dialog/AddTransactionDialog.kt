@@ -1,10 +1,11 @@
 package com.example.jobget.dialog
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.Display
+import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -15,22 +16,43 @@ import com.example.jobget.databinding.DialogAddTransactionBinding
 
 class AddTransactionDialog(context: Context, private val display: Display) : Dialog(context) {
     private lateinit var binding: DialogAddTransactionBinding
-    private lateinit var activity: Activity
-    private lateinit var defaultDisplay: Display
     private lateinit var spinnerTransactionType: Spinner
-    private lateinit var editTextTitle: EditText
-    private lateinit var editTextAmount: EditText
-    private lateinit var btnAdd: Button
-    private lateinit var btnCancel: Button
+    private lateinit var editTextDescription: EditText
+    private lateinit var editTextDollarAmount: EditText
+    private lateinit var buttonAdd: Button
+    private lateinit var buttonCancel: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_add_transaction)
+        binding = DialogAddTransactionBinding.inflate(LayoutInflater.from(context))
+        setContentView(binding.root)
         initComponents()
     }
 
     private fun initComponents() {
-        spinnerTransactionType = findViewById(R.id.sp_transaction_type)
+        setDialogSize()
+        setViewBindings()
+        setSpinnerContent()
+        setCancelButtonOnClickListener()
+    }
+
+    private fun setDialogSize() {
+        val displayMetrics = DisplayMetrics()
+        display.getMetrics(displayMetrics)
+        window?.setLayout(display.width, ((display.height * 0.5).toInt()))
+    }
+
+    private fun setViewBindings() {
+        binding.apply {
+            spinnerTransactionType = spTransactionType
+            editTextDescription = etTransactionDescription
+            editTextDollarAmount = clDollarContainer.etDollarAmount
+            buttonAdd = btnAdd
+            buttonCancel = btnCancel
+        }
+    }
+
+    private fun setSpinnerContent() {
         ArrayAdapter.createFromResource(
             context,
             R.array.transaction_type_array,
@@ -39,8 +61,10 @@ class AddTransactionDialog(context: Context, private val display: Display) : Dia
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerTransactionType.adapter = adapter
         }
-        btnCancel = findViewById(R.id.btn_cancel)
-        btnCancel.setOnClickListener {
+    }
+
+    private fun setCancelButtonOnClickListener() {
+        buttonCancel.setOnClickListener {
             onBackPressed()
         }
     }
