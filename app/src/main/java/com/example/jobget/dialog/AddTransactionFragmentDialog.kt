@@ -1,7 +1,6 @@
 package com.example.jobget.dialog
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +10,16 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import com.example.jobget.R
 import com.example.jobget.databinding.DialogAddTransactionBinding
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.model.TransactionType
 import com.example.jobget.viewmodel.MainActivityViewModel
 
-class AddTransactionFragmentDialog() : DialogFragment() {
-    private val viewModel: MainActivityViewModel by viewModels()
+class AddTransactionFragmentDialog(
+    private val viewModel: MainActivityViewModel
+) :
+    DialogFragment() {
     private lateinit var binding: DialogAddTransactionBinding
     private lateinit var spinnerTransactionType: Spinner
     private lateinit var editTextDescription: EditText
@@ -100,7 +100,6 @@ class AddTransactionFragmentDialog() : DialogFragment() {
                             ) TransactionType.INCOME else TransactionType.EXPENSE
                         )
                     )
-                    activity?.supportFragmentManager?.backStackEntryCount
                     dismiss()
                 }
             }

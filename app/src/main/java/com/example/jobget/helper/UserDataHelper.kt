@@ -28,56 +28,25 @@ class UserDataHelper @Inject constructor() {
         } else {
             date
         }
-        if (!userTransactions.containsKey(submittedDate)) {
-            userTransactions[submittedDate] = mutableListOf(transactionModel)
+
+        val json = sharedPreferences.getString("transactions", null)
+        val jsonData: MutableMap<String, MutableList<TransactionModel>> = Gson().fromJson(
+            json,
+            object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
+        )
+
+        if (jsonData.containsKey(submittedDate)) {
+            val list = jsonData[submittedDate]
+            list?.add(transactionModel)
         } else {
-            userTransactions[submittedDate]?.add(transactionModel)
+            jsonData[submittedDate] = mutableListOf(transactionModel)
         }
-        addToSharedPreferences(sharedPreferences)
+
+        addToSharedPreferences(sharedPreferences, jsonData)
     }
 
     fun getTransactions(activity: Activity): Map<String, List<TransactionModel>> {
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        if (sharedPreferences.getString("transactions", null) == null) {
-            val currentDate = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault()).format(Date())
-            userTransactions[currentDate] = mutableListOf(
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-                TransactionModel("Income", "1000", TransactionType.INCOME),
-                TransactionModel("Shoes", "70", TransactionType.EXPENSE),
-            )
-            addToSharedPreferences(sharedPreferences)
-        }
         val json = sharedPreferences.getString("transactions", null)
         return Gson().fromJson(
             json,
@@ -85,26 +54,10 @@ class UserDataHelper @Inject constructor() {
         )
     }
 
-    private fun addToSharedPreferences(sharedPreferences: SharedPreferences) {
-        val jsonObject = Gson().toJson(userTransactions)
+    private fun addToSharedPreferences(sharedPreferences: SharedPreferences, jsonData: MutableMap<String, MutableList<TransactionModel>>) {
         with(sharedPreferences.edit()) {
-            putString("transactions", jsonObject)
+            putString("transactions", Gson().toJson(jsonData))
             commit()
         }
     }
 }
-
-//            addToSharedPreferences(sharedPreferences)
-//            val jsonObject = Gson().toJson(userTransactions)
-//            val json = sharedPreferences.getString("transactions", null)
-//            val jsonData: MutableMap<String, MutableList<TransactionModel>> = Gson().fromJson(
-//                json,
-//                object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
-//            )
-//
-//            if (jsonData.containsKey(currentDate)) {
-//                val list = jsonData[currentDate]
-//                list?.add(TransactionModel("Income", "500", TransactionType.INCOME),)
-//            } else {
-//
-//            }

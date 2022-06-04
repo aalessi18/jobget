@@ -35,13 +35,12 @@ class MainActivity : AppCompatActivity() {
         initComponents()
     }
 
-    override fun onResume() {
-        super.onResume()
-        rvTransactions.adapter?.notifyDataSetChanged()
-    }
-
     private fun initComponents() {
         setViewBindings()
+    }
+
+    override fun onResume() {
+        super.onResume()
         shouldSetRecyclerView()
     }
 
@@ -56,10 +55,14 @@ class MainActivity : AppCompatActivity() {
             rvTransactions = rvTransactionsContainer
             fabAddButton = fabButton
             fabAddButton.setOnClickListener {
-                val dialog = AddTransactionFragmentDialog()
-                dialog.show(supportFragmentManager, AddTransactionFragmentDialog.TAG)
+                openDialog()
             }
         }
+    }
+
+    private fun openDialog() {
+        val dialog = AddTransactionFragmentDialog(viewModel)
+        dialog.show(supportFragmentManager, AddTransactionFragmentDialog.TAG)
     }
 
     private fun shouldSetRecyclerView() {
