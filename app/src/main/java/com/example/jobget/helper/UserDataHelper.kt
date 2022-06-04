@@ -17,12 +17,21 @@ import javax.inject.Singleton
 class UserDataHelper @Inject constructor() {
     private val userTransactions = mutableMapOf<String, MutableList<TransactionModel>>()
 
-    fun addToTransactions(activity: Activity, date: String, transactionModel: TransactionModel) {
+    fun addToTransactions(
+        activity: Activity,
+        transactionModel: TransactionModel,
+        date: String? = null
+    ) {
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        if (!userTransactions.containsKey(date)) {
-            userTransactions[date] = mutableListOf(transactionModel)
+        val submittedDate: String = if (date.isNullOrEmpty()) {
+            SimpleDateFormat("dd MMM, yyyy", Locale.getDefault()).format(Date())
         } else {
-            userTransactions[date]?.add(transactionModel)
+            date
+        }
+        if (!userTransactions.containsKey(submittedDate)) {
+            userTransactions[submittedDate] = mutableListOf(transactionModel)
+        } else {
+            userTransactions[submittedDate]?.add(transactionModel)
         }
         addToSharedPreferences(sharedPreferences)
     }

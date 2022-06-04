@@ -15,7 +15,7 @@ class MainActivityViewModel @Inject constructor(private val repository: UserData
         return repository.getTransactions(activity)
     }
 
-    fun addTransaction(activity: Activity, date: String, model: TransactionModel) {
-        repository.addTransaction(activity, date, model)
+    fun addTransaction(activity: Activity, model: TransactionModel, date: String? = null) {
+        repository.addTransaction(activity, model, date)
     }
 }

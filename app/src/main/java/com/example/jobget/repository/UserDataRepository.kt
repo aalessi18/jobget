@@ -8,11 +8,11 @@ import javax.inject.Inject
 
 
 class UserDataRepositoryImplementation @Inject constructor() : UserDataRepositoryInterface {
-    override fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
+    override fun getTransactions(activity: Activity): Map<String, List<TransactionModel>> {
         return UserDataHelper().getTransactions(activity)
     }
 
-    override fun addTransaction(activity: Activity, date: String, model: TransactionModel) {
-        UserDataHelper().addToTransactions(activity, date, model)
+    override fun addTransaction(activity: Activity, model: TransactionModel, date: String?) {
+        UserDataHelper().addToTransactions(activity, model, date)
     }
 }

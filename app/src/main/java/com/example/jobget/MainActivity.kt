@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobget.adapter.RowContainerAdapter
 import com.example.jobget.databinding.ActivityMainBinding
-import com.example.jobget.dialog.AddTransactionDialog
+import com.example.jobget.dialog.AddTransactionFragmentDialog
 import com.example.jobget.viewmodel.MainActivityViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         initComponents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        rvTransactions.adapter?.notifyDataSetChanged()
+    }
+
     private fun initComponents() {
         setViewBindings()
         shouldSetRecyclerView()
@@ -51,8 +56,8 @@ class MainActivity : AppCompatActivity() {
             rvTransactions = rvTransactionsContainer
             fabAddButton = fabButton
             fabAddButton.setOnClickListener {
-                val dialog = AddTransactionDialog(this@MainActivity, this@MainActivity.windowManager.defaultDisplay)
-                dialog.show()
+                val dialog = AddTransactionFragmentDialog()
+                dialog.show(supportFragmentManager, AddTransactionFragmentDialog.TAG)
             }
         }
     }
