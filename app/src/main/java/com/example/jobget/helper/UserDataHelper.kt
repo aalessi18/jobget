@@ -15,7 +15,6 @@ import javax.inject.Singleton
 
 @Singleton
 class UserDataHelper @Inject constructor() {
-    private val userTransactions = mutableMapOf<String, MutableList<TransactionModel>>()
 
     fun addToTransactions(
         activity: Activity,

@@ -12,12 +12,14 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.jobget.R
 import com.example.jobget.databinding.DialogAddTransactionBinding
+import com.example.jobget.interfaces.AddButtonListener
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.model.TransactionType
 import com.example.jobget.viewmodel.MainActivityViewModel
 
 class AddTransactionFragmentDialog(
-    private val viewModel: MainActivityViewModel
+    private val viewModel: MainActivityViewModel,
+    private val addButtonListener: AddButtonListener
 ) :
     DialogFragment() {
     private lateinit var binding: DialogAddTransactionBinding
@@ -42,17 +44,11 @@ class AddTransactionFragmentDialog(
     }
 
     private fun initComponents() {
-//        setDialogSize()
         setViewBindings()
         setSpinnerContent()
         setAddButtonOnClickListener()
         setCancelButtonOnClickListener()
     }
-
-//    private fun setDialogSize() {
-//        val displayMetrics = DisplayMetrics()
-//        dialog?.window?.setLayout(, )
-//    }
 
     private fun setViewBindings() {
         binding.apply {
@@ -100,6 +96,7 @@ class AddTransactionFragmentDialog(
                             ) TransactionType.INCOME else TransactionType.EXPENSE
                         )
                     )
+                    addButtonListener.setRecyclerViewList()
                     dismiss()
                 }
             }
