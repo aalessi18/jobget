@@ -38,11 +38,13 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
 
     private fun initComponents() {
         setViewBindings()
+        setBalanceContainerHeadings()
     }
 
     override fun onResume() {
         super.onResume()
         setRecyclerViewList()
+        setBalanceContainerValues()
     }
 
     private fun setViewBindings() {
@@ -59,6 +61,18 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
                 openDialog()
             }
         }
+    }
+
+    private fun setBalanceContainerHeadings() {
+        tvExpensesHeading.text = "Expenses"
+        tvIncomeHeading.text = "Income"
+        tvBalanceHeading.text = "Balance"
+    }
+
+    private fun setBalanceContainerValues() {
+        tvExpensesLabel.text = viewModel.getExpenseTotal(this)
+        tvIncomeLabel.text = viewModel.getIncomeTotal(this)
+        tvBalanceLabel.text = viewModel.getBalanceTotal(this)
     }
 
     private fun openDialog() {

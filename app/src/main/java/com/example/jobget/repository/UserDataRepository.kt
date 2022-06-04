@@ -15,4 +15,16 @@ class UserDataRepositoryImplementation @Inject constructor() : UserDataRepositor
     override fun addTransaction(activity: Activity, model: TransactionModel, date: String?) {
         UserDataHelper().addToTransactions(activity, model, date)
     }
+
+    override fun getExpenseTotal(activity: Activity) : String{
+        return UserDataHelper().getExpenseTotal(activity)
+    }
+
+    override fun getIncomeTotal(activity: Activity) : String{
+        return UserDataHelper().getIncomeTotal(activity)
+    }
+
+    override fun getBalanceTotal(activity: Activity) : String{
+        return UserDataHelper().getBalanceTotal(activity)
+    }
 }

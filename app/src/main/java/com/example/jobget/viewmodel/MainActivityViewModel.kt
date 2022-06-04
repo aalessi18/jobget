@@ -18,4 +18,16 @@ class MainActivityViewModel @Inject constructor(private val repository: UserData
     fun addTransaction(activity: Activity, model: TransactionModel, date: String? = null) {
         repository.addTransaction(activity, model, date)
     }
+
+    fun getExpenseTotal(activity: Activity) : String {
+        return repository.getExpenseTotal(activity)
+    }
+
+    fun getIncomeTotal(activity: Activity) : String {
+        return repository.getIncomeTotal(activity)
+    }
+
+    fun getBalanceTotal(activity: Activity) : String {
+        return repository.getBalanceTotal(activity)
+    }
 }
