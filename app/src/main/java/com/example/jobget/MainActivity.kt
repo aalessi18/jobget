@@ -12,6 +12,7 @@ import com.example.jobget.dialog.AddTransactionFragmentDialog
 import com.example.jobget.interfaces.AddButtonListener
 import com.example.jobget.viewmodel.MainActivityViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
     private lateinit var tvBalanceLabel: TextView
     private lateinit var rvTransactions: RecyclerView
     private lateinit var fabAddButton: FloatingActionButton
+    private lateinit var lpiBalanceBar: LinearProgressIndicator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,18 +57,23 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
             tvIncomeLabel = clBalanceContainer.clIncome.tvLabel
             tvBalanceHeading = clBalanceContainer.clBalance.tvHeading
             tvBalanceLabel = clBalanceContainer.clBalance.tvLabel
+            lpiBalanceBar = clBalanceContainer.lpiBalanceIndicator
             rvTransactions = rvTransactionsContainer
-            fabAddButton = fabButton
-            fabAddButton.setOnClickListener {
-                openDialog()
-            }
+            setFloatingActionButton(this)
+        }
+    }
+
+    private fun setFloatingActionButton(binding: ActivityMainBinding) {
+        fabAddButton = binding.fabButton
+        fabAddButton.setOnClickListener {
+            openDialog()
         }
     }
 
     private fun setBalanceContainerHeadings() {
-        tvExpensesHeading.text = "Expenses"
-        tvIncomeHeading.text = "Income"
-        tvBalanceHeading.text = "Balance"
+        tvExpensesHeading.text = getString(R.string.expense_text_heading)
+        tvIncomeHeading.text = getString(R.string.income_text_heading)
+        tvBalanceHeading.text = getString(R.string.balance_text_heading)
     }
 
     private fun setBalanceContainerValues() {
