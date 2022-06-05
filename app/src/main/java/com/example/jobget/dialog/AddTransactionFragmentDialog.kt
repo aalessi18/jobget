@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -20,12 +21,13 @@ import com.example.jobget.viewmodel.MainActivityViewModel
 class AddTransactionFragmentDialog(
     private val viewModel: MainActivityViewModel,
     private val addButtonListener: AddButtonListener
-) :
-    DialogFragment() {
+) : DialogFragment() {
     private lateinit var binding: DialogAddTransactionBinding
     private lateinit var spinnerTransactionType: Spinner
     private lateinit var editTextDescription: EditText
     private lateinit var editTextDollarAmount: EditText
+    private lateinit var buttonIncrement: ImageButton
+    private lateinit var buttonDecrement: ImageButton
     private lateinit var buttonAdd: Button
     private lateinit var buttonCancel: Button
 
@@ -55,8 +57,36 @@ class AddTransactionFragmentDialog(
             spinnerTransactionType = spTransactionType
             editTextDescription = etTransactionDescription
             editTextDollarAmount = clDollarContainer.etDollarAmount
+            buttonIncrement = clDollarContainer.btnUp
+            buttonIncrement.setOnClickListener {
+                updateEditTextValue(true)
+            }
+            buttonDecrement = clDollarContainer.btnDown
+            buttonDecrement.setOnClickListener {
+                updateEditTextValue()
+            }
             buttonAdd = btnAdd
             buttonCancel = btnCancel
+        }
+    }
+
+    private fun updateEditTextValue(isIncrement: Boolean = false) {
+        when (!editTextDollarAmount.text.isNullOrEmpty()) {
+            true -> {
+                var tempInt = Integer.parseInt(editTextDollarAmount.text.toString())
+                when (isIncrement) {
+                    true -> tempInt++
+                    else -> {
+                        if (tempInt > 0) {
+                            tempInt--
+                        }
+                    }
+                }
+                editTextDollarAmount.setText(tempInt.toString())
+            }
+            else -> {
+                editTextDollarAmount.setText("0")
+            }
         }
     }
 

@@ -10,6 +10,8 @@
     <string name="expense_text_heading">Expenses</string>
     <string name="income_text_heading">Income</string>
     <string name="balance_text_heading">Balance</string>
+    <string name="increment_button">Increment Button</string>
+    <string name="decrement_button">Decrement Button</string>
 
     <!--  Spinner dropdown values  -->
     <string-array name="transaction_type_array">
