@@ -1,5 +1,6 @@
 package com.example.jobget.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -18,13 +19,15 @@ class TransactionAdapter(private val listOfTransactions: List<TransactionModel>)
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         holder.tvTransactionTitle.text = listOfTransactions[position].transactionTitle
-        holder.tvTransactionAmount.text =
-            if (listOfTransactions[position].transactionType == TransactionType.INCOME) {
-                "$${listOfTransactions[position].transactionAmount}"
-            } else {
-                "- $${listOfTransactions[position].transactionAmount}"
-            }
-
+        if (listOfTransactions[position].transactionType == TransactionType.INCOME) {
+            holder.tvTransactionAmount.text = "$${listOfTransactions[position].transactionAmount}"
+            holder.tvTransactionTitle.setTextColor(Color.GREEN)
+            holder.tvTransactionAmount.setTextColor(Color.GREEN)
+        } else {
+            holder.tvTransactionAmount.text = "- $${listOfTransactions[position].transactionAmount}"
+            holder.tvTransactionTitle.setTextColor(Color.RED)
+            holder.tvTransactionAmount.setTextColor(Color.RED)
+        }
     }
 
     override fun getItemCount(): Int {
