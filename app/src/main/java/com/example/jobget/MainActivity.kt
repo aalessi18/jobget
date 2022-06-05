@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
         tvIncomeLabel.text = incomeTotal
         tvBalanceLabel.text = viewModel.getBalanceTotal(this)
         lpiBalanceBar.max = incomeTotal.toInt()
-        lpiBalanceBar.incrementProgressBy(expenseTotal.toInt())
+        lpiBalanceBar.progress = expenseTotal.toInt()
     }
 
     private fun openDialog() {
