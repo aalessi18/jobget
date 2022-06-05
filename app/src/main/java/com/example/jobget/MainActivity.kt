@@ -77,9 +77,13 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
     }
 
     private fun setBalanceContainerValues() {
-        tvExpensesLabel.text = viewModel.getExpenseTotal(this)
-        tvIncomeLabel.text = viewModel.getIncomeTotal(this)
+        val incomeTotal = viewModel.getIncomeTotal(this)
+        val expenseTotal = viewModel.getExpenseTotal(this)
+        tvExpensesLabel.text = expenseTotal
+        tvIncomeLabel.text = incomeTotal
         tvBalanceLabel.text = viewModel.getBalanceTotal(this)
+        lpiBalanceBar.max = incomeTotal.toInt()
+        lpiBalanceBar.incrementProgressBy(expenseTotal.toInt())
     }
 
     private fun openDialog() {
