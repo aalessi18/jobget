@@ -11,17 +11,21 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.example.jobget.R
 import com.example.jobget.databinding.DialogAddTransactionBinding
 import com.example.jobget.interfaces.AddButtonListener
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.model.TransactionType
+import com.example.jobget.viewmodel.AddTransactionViewModel
 import com.example.jobget.viewmodel.MainActivityViewModel
 
+// TODO: Is there away to avoid passing the viewmodel, maybe a callback instead
 class AddTransactionFragmentDialog(
-    private val viewModel: MainActivityViewModel,
+    private val mainActivityViewModel: MainActivityViewModel,
     private val addButtonListener: AddButtonListener
 ) : DialogFragment() {
+    private val viewModel: AddTransactionViewModel by viewModels()
     private lateinit var binding: DialogAddTransactionBinding
     private lateinit var spinnerTransactionType: Spinner
     private lateinit var editTextDescription: EditText
@@ -57,36 +61,29 @@ class AddTransactionFragmentDialog(
             spinnerTransactionType = spTransactionType
             editTextDescription = etTransactionDescription
             editTextDollarAmount = clDollarContainer.etDollarAmount
-            buttonIncrement = clDollarContainer.btnUp
-            buttonIncrement.setOnClickListener {
-                updateEditTextValue(true)
-            }
-            buttonDecrement = clDollarContainer.btnDown
-            buttonDecrement.setOnClickListener {
-                updateEditTextValue()
-            }
+            setIncrementButton(this)
+            setDecrementButton(this)
             buttonAdd = btnAdd
             buttonCancel = btnCancel
         }
     }
 
-    private fun updateEditTextValue(isIncrement: Boolean = false) {
-        when (!editTextDollarAmount.text.isNullOrEmpty()) {
-            true -> {
-                var tempInt = Integer.parseInt(editTextDollarAmount.text.toString())
-                when (isIncrement) {
-                    true -> tempInt++
-                    else -> {
-                        if (tempInt > 0) {
-                            tempInt--
-                        }
-                    }
-                }
-                editTextDollarAmount.setText(tempInt.toString())
-            }
-            else -> {
-                editTextDollarAmount.setText("0")
-            }
+    private fun setIncrementButton(binding: DialogAddTransactionBinding) {
+        buttonIncrement = binding.clDollarContainer.btnUp
+        buttonIncrement.setOnClickListener {
+            editTextDollarAmount.setText(
+                viewModel.updateEditTextValue(
+                    editTextDollarAmount.text.toString(),
+                    true
+                )
+            )
+        }
+    }
+
+    private fun setDecrementButton(binding: DialogAddTransactionBinding) {
+        buttonDecrement = binding.clDollarContainer.btnDown
+        buttonDecrement.setOnClickListener {
+            editTextDollarAmount.setText(viewModel.updateEditTextValue(editTextDollarAmount.text.toString()))
         }
     }
 
@@ -111,12 +108,12 @@ class AddTransactionFragmentDialog(
 
     private fun setAddButtonOnClickListener() {
         buttonAdd.setOnClickListener {
-            if (editTextDescription.text.isNullOrEmpty() || editTextDollarAmount.text.isNullOrEmpty()) {
+            if (editTextDescription.text.isNullOrEmpty() || editTextDollarAmount.text.isNullOrEmpty() || editTextDollarAmount.text.toString() == "0") {
                 Toast.makeText(context, "Please fill in all the elements", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 activity?.let {
-                    viewModel.addTransaction(
+                    mainActivityViewModel.addTransaction(
                         it,
                         TransactionModel(
                             editTextDescription.text.toString(),
