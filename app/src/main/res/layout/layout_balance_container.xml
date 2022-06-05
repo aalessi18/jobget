@@ -61,6 +61,7 @@
         android:layout_marginTop="@dimen/dp20"
         android:layout_marginStart="@dimen/dp20"
         android:layout_marginEnd="@dimen/dp20"
+        android:paddingBottom="@dimen/dp20"
         app:layout_constraintTop_toBottomOf="@id/cl_balance"
         app:layout_constraintStart_toStartOf="parent" />
 
