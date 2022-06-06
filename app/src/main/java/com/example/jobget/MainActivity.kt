@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
     }
 
     private fun openDialog() {
-        val dialog = AddTransactionFragmentDialog(viewModel, this)
+        val dialog = AddTransactionFragmentDialog(this)
         dialog.show(supportFragmentManager, AddTransactionFragmentDialog.TAG)
     }
 
