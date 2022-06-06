@@ -1,5 +1,7 @@
 package com.example.jobget.util
 
+import android.graphics.Color
+import com.example.jobget.R
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.model.TransactionType
 
@@ -14,6 +16,12 @@ fun getTransactionType(textValue: String) = if (textValue.equals(
         true
     )
 ) TransactionType.INCOME else TransactionType.EXPENSE
+
+fun getTransactionLabel(transactionType: TransactionType) =
+    if (isTransactionTypeIncome(transactionType)) R.string.income_cost_label else R.string.expense_cost_label
+
+fun getTransactionLabelColor(transactionType: TransactionType) =
+    if (isTransactionTypeIncome(transactionType)) Color.GREEN else Color.RED
 
 fun getTotal(
     jsonData: MutableMap<String, MutableList<TransactionModel>>,

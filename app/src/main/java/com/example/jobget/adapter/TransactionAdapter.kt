@@ -1,15 +1,14 @@
 package com.example.jobget.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jobget.R
 import com.example.jobget.databinding.RowTransactionDataBinding
 import com.example.jobget.model.TransactionModel
-import com.example.jobget.util.isTransactionTypeIncome
+import com.example.jobget.util.getTransactionLabel
+import com.example.jobget.util.getTransactionLabelColor
 
 class TransactionAdapter(
     private val context: Context,
@@ -24,10 +23,12 @@ class TransactionAdapter(
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         holder.tvTransactionTitle.text = listOfTransactions[position].transactionTitle
-        when (isTransactionTypeIncome(listOfTransactions[position].transactionType)) {
-            true -> setViewHolderData(holder, R.string.income_cost_label, position, Color.GREEN)
-            else -> setViewHolderData(holder, R.string.expense_cost_label, position, Color.RED)
-        }
+        setViewHolderData(
+            holder,
+            getTransactionLabel(listOfTransactions[position].transactionType),
+            position,
+            getTransactionLabelColor(listOfTransactions[position].transactionType)
+        )
     }
 
     override fun getItemCount(): Int {
