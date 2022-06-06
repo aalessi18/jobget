@@ -12,6 +12,8 @@
     <string name="balance_text_heading">Balance</string>
     <string name="increment_button">Increment Button</string>
     <string name="decrement_button">Decrement Button</string>
+    <string name="income_cost_label">$ %1$s</string>
+    <string name="expense_cost_label">-$ %1$s</string>
 
     <!--  Spinner dropdown values  -->
     <string-array name="transaction_type_array">

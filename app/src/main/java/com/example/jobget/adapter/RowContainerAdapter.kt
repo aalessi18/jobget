@@ -30,7 +30,7 @@ class RowContainerAdapter(
         holder.tvDate.text = dateKeyString
         mapOfTransactions[dateKeyString]?.let {
             holder.rvTransactionList.layoutManager = LinearLayoutManager(context)
-            holder.rvTransactionList.adapter = TransactionAdapter(it)
+            holder.rvTransactionList.adapter = TransactionAdapter(context, it)
         }
     }
 
