@@ -11,11 +11,13 @@ fun isTransactionTypeIncome(transactionType: TransactionType): Boolean =
 fun isTransactionTypeExpense(transactionType: TransactionType): Boolean =
     transactionType == TransactionType.EXPENSE
 
-fun getTransactionType(textValue: String) = if (textValue.equals(
-        TransactionType.INCOME.name,
-        true
-    )
-) TransactionType.INCOME else TransactionType.EXPENSE
+fun getTransactionType(textValue: String): TransactionType? {
+    return when {
+        (textValue.equals(TransactionType.INCOME.name, true)) -> TransactionType.INCOME
+        (textValue.equals(TransactionType.EXPENSE.name, true)) -> TransactionType.EXPENSE
+        else -> null
+    }
+}
 
 fun getTransactionLabel(transactionType: TransactionType) =
     if (isTransactionTypeIncome(transactionType)) R.string.income_cost_label else R.string.expense_cost_label

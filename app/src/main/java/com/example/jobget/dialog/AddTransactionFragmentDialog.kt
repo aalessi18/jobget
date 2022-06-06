@@ -108,21 +108,27 @@ class AddTransactionFragmentDialog(
 
     private fun setAddButtonOnClickListener() {
         buttonAdd.setOnClickListener {
-            if (viewModel.checkIfTextsAreEmptyOrZero(editTextDescription.text.toString(), editTextDollarAmount.text.toString())) {
+            if (viewModel.checkIfTextsAreEmptyOrZero(
+                    editTextDescription.text.toString(),
+                    editTextDollarAmount.text.toString()
+                )
+            ) {
                 Toast.makeText(context, R.string.fill_in_the_blanks, Toast.LENGTH_SHORT)
                     .show()
             } else {
                 activity?.let {
-                    mainActivityViewModel.addTransaction(
-                        it,
-                        TransactionModel(
-                            editTextDescription.text.toString(),
-                            editTextDollarAmount.text.toString(),
-                            getTransactionType(spinnerTransactionType.selectedItem.toString())
+                    getTransactionType(spinnerTransactionType.selectedItem.toString())?.let { transactionType ->
+                        mainActivityViewModel.addTransaction(
+                            it,
+                            TransactionModel(
+                                editTextDescription.text.toString(),
+                                editTextDollarAmount.text.toString(),
+                                transactionType
+                            )
                         )
-                    )
-                    addButtonListener.setRecyclerViewList()
-                    dismiss()
+                        addButtonListener.setRecyclerViewList()
+                        dismiss()
+                    }
                 }
             }
         }
