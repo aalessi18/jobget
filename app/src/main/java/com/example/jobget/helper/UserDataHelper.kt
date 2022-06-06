@@ -3,10 +3,11 @@ package com.example.jobget.helper
 import android.app.Activity
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.example.jobget.R
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.util.getBalance
 import com.example.jobget.util.getTotal
-import com.example.jobget.util.isDateFieldEmpty
+import com.example.jobget.util.retrieveDate
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
@@ -24,7 +25,8 @@ class UserDataHelper @Inject constructor() {
         transactionModel: TransactionModel,
         date: String? = null
     ) {
-        val submittedDate: String = isDateFieldEmpty(date, activity)
+        val submittedDate: String =
+            retrieveDate(activity.getString(R.string.date_pattern), date)
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
         val json = sharedPreferences.getString(TRANSACTIONS_KEY, null)
         val jsonData: MutableMap<String, MutableList<TransactionModel>> =
