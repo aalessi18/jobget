@@ -18,7 +18,7 @@ fun getTransactionType(textValue: String): TransactionType? {
         else -> null
     }
 }
-
+// TODO: Check how to test
 fun getTransactionLabel(transactionType: TransactionType) =
     if (isTransactionTypeIncome(transactionType)) R.string.income_cost_label else R.string.expense_cost_label
 
@@ -50,7 +50,7 @@ fun getTotal(
 }
 
 fun getBalance(jsonData: MutableMap<String, MutableList<TransactionModel>>): Int {
-    var totalBalance = 0;
+    var totalBalance = 0
     jsonData.forEach { (_, mutableList) ->
         mutableList.forEach {
             when (isTransactionTypeIncome(it.transactionType)) {
