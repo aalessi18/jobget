@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobget.databinding.RowTransactionDataBinding
 import com.example.jobget.model.TransactionModel
-import com.example.jobget.model.TransactionType
+import com.example.jobget.util.isTransactionTypeIncome
 
 class TransactionAdapter(private val listOfTransactions: List<TransactionModel>) :
     RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
@@ -19,7 +19,7 @@ class TransactionAdapter(private val listOfTransactions: List<TransactionModel>)
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         holder.tvTransactionTitle.text = listOfTransactions[position].transactionTitle
-        if (listOfTransactions[position].transactionType == TransactionType.INCOME) {
+        if (isTransactionTypeIncome(listOfTransactions[position].transactionType)) {
             holder.tvTransactionAmount.text = "$${listOfTransactions[position].transactionAmount}"
             holder.tvTransactionTitle.setTextColor(Color.GREEN)
             holder.tvTransactionAmount.setTextColor(Color.GREEN)

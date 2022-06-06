@@ -4,7 +4,8 @@ import android.app.Activity
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.example.jobget.model.TransactionModel
-import com.example.jobget.model.TransactionType
+import com.example.jobget.util.isTransactionTypeExpense
+import com.example.jobget.util.isTransactionTypeIncome
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
@@ -64,7 +65,7 @@ class UserDataHelper @Inject constructor() {
         var totalExpense = 0;
         jsonData.forEach { (_, mutableList) ->
             mutableList.forEach {
-                if (it.transactionType == TransactionType.EXPENSE) {
+                if (isTransactionTypeExpense(it.transactionType)) {
                     totalExpense += it.transactionAmount.toInt()
                 }
             }
@@ -83,7 +84,7 @@ class UserDataHelper @Inject constructor() {
         var totalIncome = 0;
         jsonData.forEach { (_, mutableList) ->
             mutableList.forEach {
-                if (it.transactionType == TransactionType.INCOME) {
+                if (isTransactionTypeIncome(it.transactionType)) {
                     totalIncome += it.transactionAmount.toInt()
                 }
             }
@@ -102,7 +103,7 @@ class UserDataHelper @Inject constructor() {
         var totalBalance = 0;
         jsonData.forEach { (_, mutableList) ->
             mutableList.forEach {
-                when (it.transactionType == TransactionType.INCOME) {
+                when (isTransactionTypeIncome(it.transactionType)) {
                     true -> totalBalance += it.transactionAmount.toInt()
                     else -> totalBalance -= it.transactionAmount.toInt()
                 }

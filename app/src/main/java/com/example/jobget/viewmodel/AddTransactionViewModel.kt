@@ -5,8 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddTransactionViewModel @Inject constructor(): ViewModel()  {
-    fun updateEditTextValue(textValue: String?, isIncrement: Boolean = false) : String {
+class AddTransactionViewModel @Inject constructor() : ViewModel() {
+    fun updateEditTextValue(textValue: String?, isIncrement: Boolean = false): String {
         when (!textValue.isNullOrEmpty()) {
             true -> {
                 var tempInt = Integer.parseInt(textValue)
@@ -25,4 +25,10 @@ class AddTransactionViewModel @Inject constructor(): ViewModel()  {
             }
         }
     }
+
+    fun checkIfTextsAreNullOrEmpty(
+        editTextDescription: String?,
+        editTextDollarAmount: String?
+    ): Boolean =
+        editTextDescription.isNullOrEmpty() || editTextDollarAmount.isNullOrEmpty() || editTextDollarAmount == "0"
 }

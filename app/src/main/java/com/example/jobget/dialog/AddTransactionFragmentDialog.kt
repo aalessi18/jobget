@@ -108,7 +108,7 @@ class AddTransactionFragmentDialog(
 
     private fun setAddButtonOnClickListener() {
         buttonAdd.setOnClickListener {
-            if (editTextDescription.text.isNullOrEmpty() || editTextDollarAmount.text.isNullOrEmpty() || editTextDollarAmount.text.toString() == "0") {
+            if (viewModel.checkIfTextsAreNullOrEmpty(editTextDescription.text.toString(), editTextDollarAmount.text.toString())) {
                 Toast.makeText(context, "Please fill in all the elements", Toast.LENGTH_SHORT)
                     .show()
             } else {
