@@ -4,36 +4,31 @@ import android.app.Activity
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.example.jobget.model.TransactionModel
-import com.example.jobget.util.isTransactionTypeExpense
-import com.example.jobget.util.isTransactionTypeIncome
+import com.example.jobget.util.getBalance
+import com.example.jobget.util.getTotal
+import com.example.jobget.util.isDateFieldEmpty
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.text.SimpleDateFormat
-import java.util.Locale
-import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserDataHelper @Inject constructor() {
 
+    companion object {
+        private const val TRANSACTIONS_KEY = "transactions"
+    }
+
     fun addToTransactions(
         activity: Activity,
         transactionModel: TransactionModel,
         date: String? = null
     ) {
+        val submittedDate: String = isDateFieldEmpty(date, activity)
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        val submittedDate: String = if (date.isNullOrEmpty()) {
-            SimpleDateFormat("dd MMM, yyyy", Locale.getDefault()).format(Date())
-        } else {
-            date
-        }
-
-        val json = sharedPreferences.getString("transactions", null)
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> = Gson().fromJson(
-            json,
-            object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
-        )
+        val json = sharedPreferences.getString(TRANSACTIONS_KEY, null)
+        val jsonData: MutableMap<String, MutableList<TransactionModel>> =
+            convertToMutableMapGsonFromJson(json)
 
         if (jsonData.containsKey(submittedDate)) {
             val list = jsonData[submittedDate]
@@ -46,70 +41,33 @@ class UserDataHelper @Inject constructor() {
     }
 
     fun getTransactions(activity: Activity): Map<String, List<TransactionModel>> {
-        val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        val json = sharedPreferences.getString("transactions", null)
-        return Gson().fromJson(
-            json,
-            object : TypeToken<Map<String, List<TransactionModel>>>() {}.type
-        )
+        val json = getJsonFromSharedPreferences(activity)
+        return convertToMapGsonFromJson(json)
     }
 
     fun getExpenseTotal(activity: Activity): String {
-        val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        val json = sharedPreferences.getString("transactions", null)
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> = Gson().fromJson(
-            json,
-            object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
-        )
-
-        var totalExpense = 0;
-        jsonData.forEach { (_, mutableList) ->
-            mutableList.forEach {
-                if (isTransactionTypeExpense(it.transactionType)) {
-                    totalExpense += it.transactionAmount.toInt()
-                }
-            }
-        }
-        return totalExpense.toString()
+        val jsonData: MutableMap<String, MutableList<TransactionModel>> = getJsonData(activity)
+        return getTotal(jsonData).toString()
     }
 
     fun getIncomeTotal(activity: Activity): String {
-        val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        val json = sharedPreferences.getString("transactions", null)
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> = Gson().fromJson(
-            json,
-            object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
-        )
-
-        var totalIncome = 0;
-        jsonData.forEach { (_, mutableList) ->
-            mutableList.forEach {
-                if (isTransactionTypeIncome(it.transactionType)) {
-                    totalIncome += it.transactionAmount.toInt()
-                }
-            }
-        }
-        return totalIncome.toString()
+        val jsonData: MutableMap<String, MutableList<TransactionModel>> = getJsonData(activity)
+        return getTotal(jsonData, true).toString()
     }
 
     fun getBalanceTotal(activity: Activity): String {
-        val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
-        val json = sharedPreferences.getString("transactions", null)
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> = Gson().fromJson(
-            json,
-            object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
-        )
+        val jsonData: MutableMap<String, MutableList<TransactionModel>> = getJsonData(activity)
+        return getBalance(jsonData).toString()
+    }
 
-        var totalBalance = 0;
-        jsonData.forEach { (_, mutableList) ->
-            mutableList.forEach {
-                when (isTransactionTypeIncome(it.transactionType)) {
-                    true -> totalBalance += it.transactionAmount.toInt()
-                    else -> totalBalance -= it.transactionAmount.toInt()
-                }
-            }
-        }
-        return totalBalance.toString()
+    private fun getJsonData(activity: Activity): MutableMap<String, MutableList<TransactionModel>> {
+        val json = getJsonFromSharedPreferences(activity)
+        return convertToMutableMapGsonFromJson(json)
+    }
+
+    private fun getJsonFromSharedPreferences(activity: Activity): String? {
+        val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
+        return sharedPreferences.getString(TRANSACTIONS_KEY, null)
     }
 
     private fun addToSharedPreferences(
@@ -117,8 +75,20 @@ class UserDataHelper @Inject constructor() {
         jsonData: MutableMap<String, MutableList<TransactionModel>>
     ) {
         with(sharedPreferences.edit()) {
-            putString("transactions", Gson().toJson(jsonData))
+            putString(TRANSACTIONS_KEY, Gson().toJson(jsonData))
             commit()
         }
     }
+
+    private fun convertToMapGsonFromJson(json: String?): Map<String, List<TransactionModel>> =
+        Gson().fromJson(
+            json,
+            object : TypeToken<Map<String, List<TransactionModel>>>() {}.type
+        )
+
+    private fun convertToMutableMapGsonFromJson(json: String?): MutableMap<String, MutableList<TransactionModel>> =
+        Gson().fromJson(
+            json,
+            object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
+        )
 }

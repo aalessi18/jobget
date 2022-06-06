@@ -6,6 +6,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddTransactionViewModel @Inject constructor() : ViewModel() {
+    companion object {
+        private const val ZERO_TEXT = "0"
+    }
+
     fun updateEditTextValue(textValue: String?, isIncrement: Boolean = false): String {
         when (!textValue.isNullOrEmpty()) {
             true -> {
@@ -26,9 +30,9 @@ class AddTransactionViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun checkIfTextsAreNullOrEmpty(
+    fun checkIfTextsAreEmptyOrZero(
         editTextDescription: String?,
         editTextDollarAmount: String?
     ): Boolean =
-        editTextDescription.isNullOrEmpty() || editTextDollarAmount.isNullOrEmpty() || editTextDollarAmount == "0"
+        editTextDescription.isNullOrEmpty() || editTextDollarAmount.isNullOrEmpty() || editTextDollarAmount == ZERO_TEXT
 }

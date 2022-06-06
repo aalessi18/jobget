@@ -16,7 +16,7 @@ import com.example.jobget.R
 import com.example.jobget.databinding.DialogAddTransactionBinding
 import com.example.jobget.interfaces.AddButtonListener
 import com.example.jobget.model.TransactionModel
-import com.example.jobget.model.TransactionType
+import com.example.jobget.util.getTransactionType
 import com.example.jobget.viewmodel.AddTransactionViewModel
 import com.example.jobget.viewmodel.MainActivityViewModel
 
@@ -108,8 +108,8 @@ class AddTransactionFragmentDialog(
 
     private fun setAddButtonOnClickListener() {
         buttonAdd.setOnClickListener {
-            if (viewModel.checkIfTextsAreNullOrEmpty(editTextDescription.text.toString(), editTextDollarAmount.text.toString())) {
-                Toast.makeText(context, "Please fill in all the elements", Toast.LENGTH_SHORT)
+            if (viewModel.checkIfTextsAreEmptyOrZero(editTextDescription.text.toString(), editTextDollarAmount.text.toString())) {
+                Toast.makeText(context, R.string.fill_in_the_blanks, Toast.LENGTH_SHORT)
                     .show()
             } else {
                 activity?.let {
@@ -118,9 +118,7 @@ class AddTransactionFragmentDialog(
                         TransactionModel(
                             editTextDescription.text.toString(),
                             editTextDollarAmount.text.toString(),
-                            if (spinnerTransactionType.selectedItem.toString()
-                                    .equals(TransactionType.INCOME.name, true)
-                            ) TransactionType.INCOME else TransactionType.EXPENSE
+                            getTransactionType(spinnerTransactionType.selectedItem.toString())
                         )
                     )
                     addButtonListener.setRecyclerViewList()
