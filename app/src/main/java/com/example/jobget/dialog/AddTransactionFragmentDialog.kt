@@ -20,11 +20,7 @@ import com.example.jobget.util.getTransactionType
 import com.example.jobget.viewmodel.AddTransactionViewModel
 import com.example.jobget.viewmodel.MainActivityViewModel
 
-// TODO: Is there away to avoid passing the viewmodel, maybe a callback instead
-class AddTransactionFragmentDialog(
-    private val mainActivityViewModel: MainActivityViewModel,
-    private val addButtonListener: AddButtonListener
-) : DialogFragment() {
+class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListener) : DialogFragment() {
     private val viewModel: AddTransactionViewModel by viewModels()
     private lateinit var binding: DialogAddTransactionBinding
     private lateinit var spinnerTransactionType: Spinner
@@ -118,15 +114,13 @@ class AddTransactionFragmentDialog(
             } else {
                 activity?.let {
                     getTransactionType(spinnerTransactionType.selectedItem.toString())?.let { transactionType ->
-                        mainActivityViewModel.addTransaction(
-                            it,
+                        addButtonListener.setRecyclerViewList(
                             TransactionModel(
                                 editTextDescription.text.toString(),
                                 editTextDollarAmount.text.toString(),
                                 transactionType
                             )
                         )
-                        addButtonListener.setRecyclerViewList()
                         dismiss()
                     }
                 }

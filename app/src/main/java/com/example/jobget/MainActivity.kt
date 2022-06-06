@@ -10,6 +10,7 @@ import com.example.jobget.adapter.RowContainerAdapter
 import com.example.jobget.databinding.ActivityMainBinding
 import com.example.jobget.dialog.AddTransactionFragmentDialog
 import com.example.jobget.interfaces.AddButtonListener
+import com.example.jobget.model.TransactionModel
 import com.example.jobget.viewmodel.MainActivityViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -91,7 +92,10 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
         dialog.show(supportFragmentManager, AddTransactionFragmentDialog.TAG)
     }
 
-    override fun setRecyclerViewList() {
+    override fun setRecyclerViewList(transactionModel: TransactionModel?) {
+        transactionModel?.let {
+            viewModel.addTransaction(this, transactionModel)
+        }
         viewModel.getTransactions(this)?.let {
             val adapter = RowContainerAdapter(this, it)
             rvTransactions.layoutManager = LinearLayoutManager(this)

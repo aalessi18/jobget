@@ -14,21 +14,20 @@ class MainActivityViewModel @Inject constructor(private val repository: UserData
     fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
         return repository.getTransactions(activity)
     }
-
-    // TODO: Extract to another viewmodel?
+    
     fun addTransaction(activity: Activity, model: TransactionModel, date: String? = null) {
         repository.addTransaction(activity, model, date)
     }
 
-    fun getExpenseTotal(activity: Activity) : String {
+    fun getExpenseTotal(activity: Activity): String {
         return repository.getExpenseTotal(activity)
     }
 
-    fun getIncomeTotal(activity: Activity) : String {
+    fun getIncomeTotal(activity: Activity): String {
         return repository.getIncomeTotal(activity)
     }
 
-    fun getBalanceTotal(activity: Activity) : String {
+    fun getBalanceTotal(activity: Activity): String {
         return repository.getBalanceTotal(activity)
     }
 }
