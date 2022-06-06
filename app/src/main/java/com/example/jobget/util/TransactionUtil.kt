@@ -18,7 +18,7 @@ fun getTransactionType(textValue: String): TransactionType? {
         else -> null
     }
 }
-// TODO: Check how to test
+
 fun getTransactionLabel(transactionType: TransactionType) =
     if (isTransactionTypeIncome(transactionType)) R.string.income_cost_label else R.string.expense_cost_label
 
