@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date
 
-fun isDateFieldEmpty(date: String?, activity: Activity) =
+fun isDateFieldEmpty(date: String?, activity: Activity): String =
     if (date.isNullOrEmpty()) {
         SimpleDateFormat(activity.getString(R.string.date_patten), Locale.getDefault()).format(
             Date()
