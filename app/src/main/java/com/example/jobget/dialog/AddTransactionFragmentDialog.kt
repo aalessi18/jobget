@@ -1,5 +1,6 @@
 package com.example.jobget.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.jobget.R
@@ -18,7 +20,6 @@ import com.example.jobget.interfaces.AddButtonListener
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.util.getTransactionType
 import com.example.jobget.viewmodel.AddTransactionViewModel
-import com.example.jobget.viewmodel.MainActivityViewModel
 
 class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListener) : DialogFragment() {
     private val viewModel: AddTransactionViewModel by viewModels()
@@ -114,14 +115,23 @@ class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListe
             } else {
                 activity?.let {
                     getTransactionType(spinnerTransactionType.selectedItem.toString())?.let { transactionType ->
-                        addButtonListener.setRecyclerViewList(
-                            TransactionModel(
-                                editTextDescription.text.toString(),
-                                editTextDollarAmount.text.toString(),
-                                transactionType
+                        try {
+                            Integer.parseInt(editTextDollarAmount.text.toString())
+                            addButtonListener.setRecyclerViewList(
+                                TransactionModel(
+                                    editTextDescription.text.toString(),
+                                    editTextDollarAmount.text.toString(),
+                                    transactionType
+                                )
                             )
-                        )
-                        dismiss()
+                            dismiss()
+                        } catch(e: NumberFormatException) {
+                            val builder = AlertDialog.Builder(it)
+                            builder.setTitle("Number out of bounds")
+                            builder.setMessage("Value needs to be smaller than ${Integer.MAX_VALUE}")
+                            builder.setPositiveButton("Ok") { dialog: DialogInterface, _: Int -> dialog.dismiss()}
+                            builder.show()
+                        }
                     }
                 }
             }
