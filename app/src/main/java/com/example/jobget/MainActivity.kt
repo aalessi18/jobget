@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), AddButtonListener, SwipeGestureListene
         tvExpensesLabel.text = expenseTotal
         tvIncomeLabel.text = incomeTotal
         tvBalanceLabel.text = viewModel.getBalanceTotal(this)
-        lpiBalanceBar.max = incomeTotal.toInt()
+        lpiBalanceBar.max = viewModel.getDefaultIncome(incomeTotal.toInt())
         lpiBalanceBar.progress = expenseTotal.toInt()
     }
 
