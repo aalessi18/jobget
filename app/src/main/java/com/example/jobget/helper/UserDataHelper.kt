@@ -48,11 +48,14 @@ class UserDataHelper @Inject constructor() {
 
     fun getTransactions(activity: Activity): MutableMap<String, MutableList<TransactionModel>>? {
         val json = getJsonFromSharedPreferences(activity)
-        val data = convertToMapGsonFromJson(json)
-        return data
+        return convertToMapGsonFromJson(json)
     }
 
-    fun deleteTransaction(activity: Activity, dateChosen: String, transactionModel: TransactionModel) {
+    fun deleteTransaction(
+        activity: Activity,
+        dateChosen: String,
+        transactionModel: TransactionModel
+    ) {
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
         val json = sharedPreferences.getString(TRANSACTIONS_KEY, null)
         val jsonData: MutableMap<String, MutableList<TransactionModel>>? =
@@ -66,13 +69,17 @@ class UserDataHelper @Inject constructor() {
                 }
                 addToSharedPreferences(sharedPreferences, jsonData)
             } else {
-                val builder = AlertDialog.Builder(activity)
-                builder.setTitle("Error")
-                builder.setMessage("Unexpected error has occurred. Please try again")
-                builder.setPositiveButton("Ok") { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-                builder.show()
+                showErrorDialog(activity)
             }
         }
+    }
+
+    private fun showErrorDialog(activity: Activity): AlertDialog? {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle(activity.getString(R.string.error_dialog_title))
+        builder.setMessage(activity.getString(R.string.error_dialog_message))
+        builder.setPositiveButton(activity.getString(R.string.ok_text)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+        return builder.show()
     }
 
     fun getExpenseTotal(activity: Activity): String {

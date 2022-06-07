@@ -159,9 +159,9 @@ class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListe
 
     private fun displayAlertPopup(it: FragmentActivity): AlertDialog? {
         val builder = AlertDialog.Builder(it)
-        builder.setTitle("Number out of bounds")
-        builder.setMessage("Value needs to be smaller than ${Integer.MAX_VALUE}")
-        builder.setPositiveButton("Ok") { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+        builder.setTitle(it.getString(R.string.out_of_bounds_dialog_title))
+        builder.setMessage(it.getString(R.string.out_of_bounds_dialog_message, Integer.MAX_VALUE))
+        builder.setPositiveButton(it.getString(R.string.ok_text)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
         return builder.show()
     }
 }
