@@ -13,15 +13,18 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import com.example.jobget.R
 import com.example.jobget.databinding.DialogAddTransactionBinding
 import com.example.jobget.interfaces.AddButtonListener
 import com.example.jobget.model.TransactionModel
+import com.example.jobget.model.TransactionType
 import com.example.jobget.util.getTransactionType
 import com.example.jobget.viewmodel.AddTransactionViewModel
 
-class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListener) : DialogFragment() {
+class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListener) :
+    DialogFragment() {
     private val viewModel: AddTransactionViewModel by viewModels()
     private lateinit var binding: DialogAddTransactionBinding
     private lateinit var spinnerTransactionType: Spinner
@@ -115,26 +118,35 @@ class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListe
             } else {
                 activity?.let {
                     getTransactionType(spinnerTransactionType.selectedItem.toString())?.let { transactionType ->
-                        try {
-                            Integer.parseInt(editTextDollarAmount.text.toString())
-                            addButtonListener.setRecyclerViewList(
-                                TransactionModel(
-                                    editTextDescription.text.toString(),
-                                    editTextDollarAmount.text.toString(),
-                                    transactionType
-                                )
-                            )
-                            dismiss()
-                        } catch(e: NumberFormatException) {
-                            val builder = AlertDialog.Builder(it)
-                            builder.setTitle("Number out of bounds")
-                            builder.setMessage("Value needs to be smaller than ${Integer.MAX_VALUE}")
-                            builder.setPositiveButton("Ok") { dialog: DialogInterface, _: Int -> dialog.dismiss()}
-                            builder.show()
-                        }
+                        checkIntegerValueFromEditText(transactionType, it)
                     }
                 }
             }
         }
+    }
+
+    private fun checkIntegerValueFromEditText(
+        transactionType: TransactionType,
+        it: FragmentActivity
+    ) = try {
+        Integer.parseInt(editTextDollarAmount.text.toString())
+        addButtonListener.setRecyclerViewList(
+            TransactionModel(
+                editTextDescription.text.toString(),
+                editTextDollarAmount.text.toString(),
+                transactionType
+            )
+        )
+        dismiss()
+    } catch (e: NumberFormatException) {
+        displayAlertPopup(it)
+    }
+
+    private fun displayAlertPopup(it: FragmentActivity): AlertDialog? {
+        val builder = AlertDialog.Builder(it)
+        builder.setTitle("Number out of bounds")
+        builder.setMessage("Value needs to be smaller than ${Integer.MAX_VALUE}")
+        builder.setPositiveButton("Ok") { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+        return builder.show()
     }
 }
