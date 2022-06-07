@@ -1,4 +1,4 @@
-package com.example.jobget
+package com.example.jobget.activity
 
 
 import androidx.test.espresso.Espresso.onView
@@ -8,6 +8,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
+import com.example.jobget.MainActivity
+import com.example.jobget.R
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
