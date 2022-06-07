@@ -1,6 +1,5 @@
 package com.example.jobget.dialog
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,11 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import com.example.jobget.R
+import com.example.jobget.builder.displayAlertPopup
 import com.example.jobget.databinding.DialogAddTransactionBinding
 import com.example.jobget.interfaces.AddButtonListener
 import com.example.jobget.model.TransactionModel
@@ -155,13 +154,5 @@ class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListe
         dismiss()
     } catch (e: NumberFormatException) {
         displayAlertPopup(it)
-    }
-
-    private fun displayAlertPopup(it: FragmentActivity): AlertDialog? {
-        val builder = AlertDialog.Builder(it)
-        builder.setTitle(it.getString(R.string.out_of_bounds_dialog_title))
-        builder.setMessage(it.getString(R.string.out_of_bounds_dialog_message, Integer.MAX_VALUE))
-        builder.setPositiveButton(it.getString(R.string.ok_text)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-        return builder.show()
     }
 }

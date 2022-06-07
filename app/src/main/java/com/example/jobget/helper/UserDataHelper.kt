@@ -2,10 +2,9 @@ package com.example.jobget.helper
 
 import android.app.Activity
 import android.content.Context.MODE_PRIVATE
-import android.content.DialogInterface
 import android.content.SharedPreferences
-import androidx.appcompat.app.AlertDialog
 import com.example.jobget.R
+import com.example.jobget.builder.showErrorDialog
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.util.getBalance
 import com.example.jobget.util.getTotal
@@ -72,14 +71,6 @@ class UserDataHelper @Inject constructor() {
                 showErrorDialog(activity)
             }
         }
-    }
-
-    private fun showErrorDialog(activity: Activity): AlertDialog? {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(activity.getString(R.string.error_dialog_title))
-        builder.setMessage(activity.getString(R.string.error_dialog_message))
-        builder.setPositiveButton(activity.getString(R.string.ok_text)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-        return builder.show()
     }
 
     fun getExpenseTotal(activity: Activity): String {
