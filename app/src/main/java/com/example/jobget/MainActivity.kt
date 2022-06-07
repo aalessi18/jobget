@@ -10,6 +10,7 @@ import com.example.jobget.adapter.RowContainerAdapter
 import com.example.jobget.databinding.ActivityMainBinding
 import com.example.jobget.dialog.AddTransactionFragmentDialog
 import com.example.jobget.interfaces.AddButtonListener
+import com.example.jobget.interfaces.SwipeGestureListener
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.viewmodel.MainActivityViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,7 +18,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), AddButtonListener {
+class MainActivity : AppCompatActivity(), AddButtonListener, SwipeGestureListener {
     private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
@@ -97,11 +98,18 @@ class MainActivity : AppCompatActivity(), AddButtonListener {
             viewModel.addTransaction(this, transactionModel)
         }
         viewModel.getTransactions(this)?.let {
-            val adapter = RowContainerAdapter(this, it)
+            val adapter = RowContainerAdapter(this, it, this)
             rvTransactions.layoutManager = LinearLayoutManager(this)
             rvTransactions.adapter = adapter
         }
         rvTransactions.adapter?.notifyDataSetChanged()
         setBalanceContainerValues()
+    }
+
+    override fun swipeToDelete(dateChosen: String, transactionModel: TransactionModel) {
+        viewModel.getTransactions(this)?.let {
+            viewModel.deleteTransaction(this, dateChosen, transactionModel)
+            setRecyclerViewList()
+        }
     }
 }

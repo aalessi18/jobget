@@ -52,13 +52,15 @@ class UserDataHelper @Inject constructor() {
     }
 
     fun deleteTransaction(activity: Activity, dateChosen: String, transactionModel: TransactionModel) {
-        val json = getJsonFromSharedPreferences(activity)
+        val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
+        val json = sharedPreferences.getString(TRANSACTIONS_KEY, null)
         val jsonData: MutableMap<String, MutableList<TransactionModel>>? =
             convertToMutableMapGsonFromJson(json)
         jsonData?.let {
             if (jsonData.containsKey(dateChosen)) {
                 val list = jsonData[dateChosen]
                 list?.remove(transactionModel)
+                addToSharedPreferences(sharedPreferences, jsonData)
             } else {
                 val builder = AlertDialog.Builder(activity)
                 builder.setTitle("Error")

@@ -7,12 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobget.databinding.RowListDataBinding
+import com.example.jobget.interfaces.SwipeGestureListener
 import com.example.jobget.model.TransactionModel
 
 
 class RowContainerAdapter(
     private val context: Context,
-    private val mapOfTransactions: MutableMap<String, MutableList<TransactionModel>>
+    private val mapOfTransactions: MutableMap<String, MutableList<TransactionModel>>,
+    private val swipeGestureListener: SwipeGestureListener
 ) :
     RecyclerView.Adapter<RowContainerAdapter.RowViewHolder>() {
 
@@ -27,10 +29,16 @@ class RowContainerAdapter(
 
     override fun onBindViewHolder(holder: RowContainerAdapter.RowViewHolder, position: Int) {
         val dateKeyString = mapOfTransactions.keys.toTypedArray()[position]
-        holder.tvDate.text = dateKeyString
         mapOfTransactions[dateKeyString]?.let {
-            holder.rvTransactionList.layoutManager = LinearLayoutManager(context)
-            holder.rvTransactionList.adapter = TransactionAdapter(context, it)
+            if (it.isNotEmpty()) {
+                holder.tvDate.text = dateKeyString
+                holder.rvTransactionList.layoutManager = LinearLayoutManager(context)
+                val adapter = TransactionAdapter(context, it, dateKeyString, swipeGestureListener)
+                adapter.getItemTouchListener().attachToRecyclerView(holder.rvTransactionList)
+                holder.rvTransactionList.adapter = adapter
+            } else {
+//                mapOfTransactions.remove(dateKeyString)
+            }
         }
     }
 

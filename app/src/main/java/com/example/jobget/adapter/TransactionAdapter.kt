@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobget.databinding.RowTransactionDataBinding
+import com.example.jobget.interfaces.SwipeGestureListener
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.util.getTransactionLabel
 import com.example.jobget.util.getTransactionLabelColor
@@ -14,7 +16,9 @@ import com.example.jobget.util.getTransactionLabelColor
 
 class TransactionAdapter(
     private val context: Context,
-    private val listOfTransactions: MutableList<TransactionModel>
+    private val listOfTransactions: MutableList<TransactionModel>,
+    private val dateForList: String,
+    private val swipeGestureListener: SwipeGestureListener
 ) :
     RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -31,21 +35,6 @@ class TransactionAdapter(
             position,
             getTransactionLabelColor(listOfTransactions[position].transactionType)
         )
-//        ItemTouchHelper(
-//            object : ItemTouchHelper.SimpleCallback(
-//                0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
-//            ) {
-//                override fun onMove(
-//                    recyclerView: RecyclerView,
-//                    viewHolder: ViewHolder, target: ViewHolder
-//                ): Boolean {
-//                    return false
-//                }
-//
-//                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-//                    listOfTransactions.remove()
-//                }
-//            })
     }
 
     override fun getItemCount(): Int {
@@ -64,6 +53,24 @@ class TransactionAdapter(
         )
         viewHolder.tvTransactionTitle.setTextColor(colorId)
         viewHolder.tvTransactionAmount.setTextColor(colorId)
+    }
+
+    fun getItemTouchListener(): ItemTouchHelper {
+        return ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    swipeGestureListener.swipeToDelete(dateForList, listOfTransactions[viewHolder.adapterPosition])
+                }
+            })
     }
 
     inner class TransactionViewHolder(binding: RowTransactionDataBinding) :
