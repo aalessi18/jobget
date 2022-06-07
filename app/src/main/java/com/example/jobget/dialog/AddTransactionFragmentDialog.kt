@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -61,11 +62,21 @@ class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListe
             spinnerTransactionType = spTransactionType
             editTextDescription = etTransactionDescription
             editTextDollarAmount = clDollarContainer.etDollarAmount
+            editTextDollarAmount.setOnEditorActionListener { _, i, _ ->
+                handleOnEnterClicked(i)
+            }
             setIncrementButton(this)
             setDecrementButton(this)
             buttonAdd = btnAdd
             buttonCancel = btnCancel
         }
+    }
+
+    private fun handleOnEnterClicked(i: Int) = if (i == EditorInfo.IME_ACTION_DONE) {
+        onAddButtonClicked()
+        true
+    } else {
+        false
     }
 
     private fun setIncrementButton(binding: DialogAddTransactionBinding) {
@@ -108,18 +119,22 @@ class AddTransactionFragmentDialog(private val addButtonListener: AddButtonListe
 
     private fun setAddButtonOnClickListener() {
         buttonAdd.setOnClickListener {
-            if (viewModel.checkIfTextsAreEmptyOrZero(
-                    editTextDescription.text.toString(),
-                    editTextDollarAmount.text.toString()
-                )
-            ) {
-                Toast.makeText(context, R.string.fill_in_the_blanks, Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                activity?.let {
-                    getTransactionType(spinnerTransactionType.selectedItem.toString())?.let { transactionType ->
-                        checkIntegerValueFromEditText(transactionType, it)
-                    }
+            onAddButtonClicked()
+        }
+    }
+
+    private fun onAddButtonClicked() {
+        if (viewModel.checkIfTextsAreEmptyOrZero(
+                editTextDescription.text.toString(),
+                editTextDollarAmount.text.toString()
+            )
+        ) {
+            Toast.makeText(context, R.string.fill_in_the_blanks, Toast.LENGTH_SHORT)
+                .show()
+        } else {
+            activity?.let {
+                getTransactionType(spinnerTransactionType.selectedItem.toString())?.let { transactionType ->
+                    checkIntegerValueFromEditText(transactionType, it)
                 }
             }
         }

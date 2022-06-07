@@ -30,6 +30,7 @@
         android:autofillHints="@string/description_about_transaction"
         android:hint="@string/description_about_transaction"
         android:inputType="text"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toTopOf="@id/cl_dollar_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
