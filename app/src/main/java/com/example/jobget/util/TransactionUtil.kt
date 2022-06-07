@@ -26,11 +26,11 @@ fun getTransactionLabelColor(transactionType: TransactionType) =
     if (isTransactionTypeIncome(transactionType)) Color.GREEN else Color.RED
 
 fun getTotal(
-    jsonData: MutableMap<String, MutableList<TransactionModel>>,
+    jsonData: MutableMap<String, MutableList<TransactionModel>>?,
     isIncomeTotal: Boolean = false
 ): Int {
     var total = 0
-    jsonData.forEach { (_, mutableList) ->
+    jsonData?.forEach { (_, mutableList) ->
         mutableList.forEach {
             when (isIncomeTotal) {
                 true -> {
@@ -49,9 +49,9 @@ fun getTotal(
     return total
 }
 
-fun getBalance(jsonData: MutableMap<String, MutableList<TransactionModel>>): Int {
+fun getBalance(jsonData: MutableMap<String, MutableList<TransactionModel>>?): Int {
     var totalBalance = 0
-    jsonData.forEach { (_, mutableList) ->
+    jsonData?.forEach { (_, mutableList) ->
         mutableList.forEach {
             when (isTransactionTypeIncome(it.transactionType)) {
                 true -> totalBalance += it.transactionAmount.toInt()

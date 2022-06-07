@@ -29,40 +29,42 @@ class UserDataHelper @Inject constructor() {
             retrieveDate(activity.getString(R.string.date_pattern), date)
         val sharedPreferences: SharedPreferences = activity.getPreferences(MODE_PRIVATE)
         val json = sharedPreferences.getString(TRANSACTIONS_KEY, null)
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> =
+        val jsonData: MutableMap<String, MutableList<TransactionModel>>? =
             convertToMutableMapGsonFromJson(json)
 
-        if (jsonData.containsKey(submittedDate)) {
-            val list = jsonData[submittedDate]
-            list?.add(transactionModel)
-        } else {
-            jsonData[submittedDate] = mutableListOf(transactionModel)
+        jsonData?.let {
+            if (jsonData.containsKey(submittedDate)) {
+                val list = jsonData[submittedDate]
+                list?.add(transactionModel)
+            } else {
+                jsonData[submittedDate] = mutableListOf(transactionModel)
+            }
         }
 
         addToSharedPreferences(sharedPreferences, jsonData)
     }
 
-    fun getTransactions(activity: Activity): Map<String, List<TransactionModel>> {
+    fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
         val json = getJsonFromSharedPreferences(activity)
         return convertToMapGsonFromJson(json)
     }
 
     fun getExpenseTotal(activity: Activity): String {
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> = getJsonData(activity)
+        val jsonData: MutableMap<String, MutableList<TransactionModel>>? = getJsonData(activity)
         return getTotal(jsonData).toString()
     }
 
     fun getIncomeTotal(activity: Activity): String {
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> = getJsonData(activity)
+        val jsonData: MutableMap<String, MutableList<TransactionModel>>? = getJsonData(activity)
         return getTotal(jsonData, true).toString()
     }
 
     fun getBalanceTotal(activity: Activity): String {
-        val jsonData: MutableMap<String, MutableList<TransactionModel>> = getJsonData(activity)
+        val jsonData: MutableMap<String, MutableList<TransactionModel>>? = getJsonData(activity)
         return getBalance(jsonData).toString()
     }
 
-    private fun getJsonData(activity: Activity): MutableMap<String, MutableList<TransactionModel>> {
+    private fun getJsonData(activity: Activity): MutableMap<String, MutableList<TransactionModel>>? {
         val json = getJsonFromSharedPreferences(activity)
         return convertToMutableMapGsonFromJson(json)
     }
@@ -74,7 +76,7 @@ class UserDataHelper @Inject constructor() {
 
     private fun addToSharedPreferences(
         sharedPreferences: SharedPreferences,
-        jsonData: MutableMap<String, MutableList<TransactionModel>>
+        jsonData: MutableMap<String, MutableList<TransactionModel>>?
     ) {
         with(sharedPreferences.edit()) {
             putString(TRANSACTIONS_KEY, Gson().toJson(jsonData))
@@ -83,14 +85,18 @@ class UserDataHelper @Inject constructor() {
     }
 
     private fun convertToMapGsonFromJson(json: String?): Map<String, List<TransactionModel>> =
-        Gson().fromJson(
-            json,
-            object : TypeToken<Map<String, List<TransactionModel>>>() {}.type
-        )
+        json?.let {
+            Gson().fromJson(
+                json,
+                object : TypeToken<Map<String, List<TransactionModel>>>() {}.type
+            )
+        } ?: HashMap()
 
-    private fun convertToMutableMapGsonFromJson(json: String?): MutableMap<String, MutableList<TransactionModel>> =
-        Gson().fromJson(
-            json,
-            object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
-        )
+    private fun convertToMutableMapGsonFromJson(json: String?): MutableMap<String, MutableList<TransactionModel>>? =
+        json?.let {
+            Gson().fromJson(
+                json,
+                object : TypeToken<MutableMap<String, MutableList<TransactionModel>>>() {}.type
+            )
+        } ?: HashMap()
 }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 
 class UserDataRepositoryImplementation @Inject constructor() : UserDataRepositoryInterface {
-    override fun getTransactions(activity: Activity): Map<String, List<TransactionModel>> {
+    override fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
         return UserDataHelper().getTransactions(activity)
     }
 
@@ -16,15 +16,15 @@ class UserDataRepositoryImplementation @Inject constructor() : UserDataRepositor
         UserDataHelper().addToTransactions(activity, model, date)
     }
 
-    override fun getExpenseTotal(activity: Activity) : String{
+    override fun getExpenseTotal(activity: Activity): String {
         return UserDataHelper().getExpenseTotal(activity)
     }
 
-    override fun getIncomeTotal(activity: Activity) : String{
+    override fun getIncomeTotal(activity: Activity): String {
         return UserDataHelper().getIncomeTotal(activity)
     }
 
-    override fun getBalanceTotal(activity: Activity) : String{
+    override fun getBalanceTotal(activity: Activity): String {
         return UserDataHelper().getBalanceTotal(activity)
     }
 }
