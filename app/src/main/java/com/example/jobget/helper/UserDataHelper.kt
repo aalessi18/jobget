@@ -2,7 +2,9 @@ package com.example.jobget.helper
 
 import android.app.Activity
 import android.content.Context.MODE_PRIVATE
+import android.content.DialogInterface
 import android.content.SharedPreferences
+import androidx.appcompat.app.AlertDialog
 import com.example.jobget.R
 import com.example.jobget.model.TransactionModel
 import com.example.jobget.util.getBalance
@@ -44,9 +46,27 @@ class UserDataHelper @Inject constructor() {
         addToSharedPreferences(sharedPreferences, jsonData)
     }
 
-    fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
+    fun getTransactions(activity: Activity): MutableMap<String, MutableList<TransactionModel>>? {
         val json = getJsonFromSharedPreferences(activity)
         return convertToMapGsonFromJson(json)
+    }
+
+    fun deleteTransaction(activity: Activity, dateChosen: String, transactionModel: TransactionModel) {
+        val json = getJsonFromSharedPreferences(activity)
+        val jsonData: MutableMap<String, MutableList<TransactionModel>>? =
+            convertToMutableMapGsonFromJson(json)
+        jsonData?.let {
+            if (jsonData.containsKey(dateChosen)) {
+                val list = jsonData[dateChosen]
+                list?.remove(transactionModel)
+            } else {
+                val builder = AlertDialog.Builder(activity)
+                builder.setTitle("Error")
+                builder.setMessage("Unexpected error has occurred. Please try again")
+                builder.setPositiveButton("Ok") { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+                builder.show()
+            }
+        }
     }
 
     fun getExpenseTotal(activity: Activity): String {
@@ -84,11 +104,11 @@ class UserDataHelper @Inject constructor() {
         }
     }
 
-    private fun convertToMapGsonFromJson(json: String?): Map<String, List<TransactionModel>> =
+    private fun convertToMapGsonFromJson(json: String?): MutableMap<String, MutableList<TransactionModel>> =
         json?.let {
             Gson().fromJson(
                 json,
-                object : TypeToken<Map<String, List<TransactionModel>>>() {}.type
+                object : TypeToken<Map<String, MutableList<TransactionModel>>>() {}.type
             )
         } ?: HashMap()
 

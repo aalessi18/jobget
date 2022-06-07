@@ -12,7 +12,7 @@ import com.example.jobget.model.TransactionModel
 
 class RowContainerAdapter(
     private val context: Context,
-    private val mapOfTransactions: Map<String, List<TransactionModel>>
+    private val mapOfTransactions: MutableMap<String, MutableList<TransactionModel>>
 ) :
     RecyclerView.Adapter<RowContainerAdapter.RowViewHolder>() {
 

@@ -8,12 +8,20 @@ import javax.inject.Inject
 
 
 class UserDataRepositoryImplementation @Inject constructor() : UserDataRepositoryInterface {
-    override fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
+    override fun getTransactions(activity: Activity): MutableMap<String, MutableList<TransactionModel>>? {
         return UserDataHelper().getTransactions(activity)
     }
 
     override fun addTransaction(activity: Activity, model: TransactionModel, date: String?) {
         UserDataHelper().addToTransactions(activity, model, date)
+    }
+
+    override fun deleteTransaction(
+        activity: Activity,
+        dateChosen: String,
+        transactionModel: TransactionModel
+    ) {
+        UserDataHelper().deleteTransaction(activity, dateChosen, transactionModel)
     }
 
     override fun getExpenseTotal(activity: Activity): String {

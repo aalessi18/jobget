@@ -11,12 +11,16 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(private val repository: UserDataRepositoryInterface) :
     ViewModel() {
 
-    fun getTransactions(activity: Activity): Map<String, List<TransactionModel>>? {
+    fun getTransactions(activity: Activity): MutableMap<String, MutableList<TransactionModel>>? {
         return repository.getTransactions(activity)
     }
-    
+
     fun addTransaction(activity: Activity, model: TransactionModel, date: String? = null) {
         repository.addTransaction(activity, model, date)
+    }
+
+    fun deleteTransaction(activity: Activity, dateChosen: String, model: TransactionModel) {
+        repository.deleteTransaction(activity, dateChosen, model)
     }
 
     fun getExpenseTotal(activity: Activity): String {
