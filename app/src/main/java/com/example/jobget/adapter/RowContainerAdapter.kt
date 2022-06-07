@@ -29,15 +29,13 @@ class RowContainerAdapter(
 
     override fun onBindViewHolder(holder: RowContainerAdapter.RowViewHolder, position: Int) {
         val dateKeyString = mapOfTransactions.keys.toTypedArray()[position]
-        mapOfTransactions[dateKeyString]?.let {
+        mapOfTransactions[dateKeyString]?.let { it ->
             if (it.isNotEmpty()) {
                 holder.tvDate.text = dateKeyString
                 holder.rvTransactionList.layoutManager = LinearLayoutManager(context)
                 val adapter = TransactionAdapter(context, it, dateKeyString, swipeGestureListener)
                 adapter.getItemTouchListener().attachToRecyclerView(holder.rvTransactionList)
                 holder.rvTransactionList.adapter = adapter
-            } else {
-//                mapOfTransactions.remove(dateKeyString)
             }
         }
     }

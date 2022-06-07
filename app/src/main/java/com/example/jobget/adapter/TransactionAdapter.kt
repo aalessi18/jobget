@@ -75,7 +75,6 @@ class TransactionAdapter(
 
     inner class TransactionViewHolder(binding: RowTransactionDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val clTransactionContainer: ConstraintLayout = binding.clTransactionContainer
         val tvTransactionTitle: TextView = binding.tvTransactionLabel
         val tvTransactionAmount: TextView = binding.tvTransactionAmount
     }
