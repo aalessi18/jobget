@@ -27,8 +27,6 @@
             android:id="@+id/rv_transactions_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp20"
-            android:layout_marginEnd="@dimen/dp20"
             android:clipToPadding="false"
             android:nestedScrollingEnabled="true" />
 
@@ -40,12 +38,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp20"
         android:layout_marginBottom="@dimen/dp20"
-        android:contentDescription="@string/add_transaction_button"
         android:alpha="0.5"
-        app:rippleColor="@null"
+        android:contentDescription="@string/add_transaction_button"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@null"
         app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
