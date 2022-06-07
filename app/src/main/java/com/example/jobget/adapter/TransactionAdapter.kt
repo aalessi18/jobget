@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobget.databinding.RowTransactionDataBinding
@@ -68,7 +67,10 @@ class TransactionAdapter(
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    swipeGestureListener.swipeToDelete(dateForList, listOfTransactions[viewHolder.adapterPosition])
+                    swipeGestureListener.swipeToDelete(
+                        dateForList,
+                        listOfTransactions[viewHolder.adapterPosition]
+                    )
                 }
             })
     }

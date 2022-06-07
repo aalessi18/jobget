@@ -35,7 +35,7 @@ class MainActivityViewModel @Inject constructor(private val repository: UserData
         return repository.getBalanceTotal(activity)
     }
 
-    fun getDefaultIncome(value: Int) : Int {
+    fun getDefaultIncome(value: Int): Int {
         return when (value == 0 || value < 0) {
             true -> 1
             else -> value

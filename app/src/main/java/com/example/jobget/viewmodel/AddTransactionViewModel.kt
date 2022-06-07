@@ -25,7 +25,7 @@ class AddTransactionViewModel @Inject constructor() : ViewModel() {
                 return tempInt.toString()
             }
             else -> {
-                return "0"
+                return ZERO_TEXT
             }
         }
     }
