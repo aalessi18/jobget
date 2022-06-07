@@ -6,3 +6,4 @@ email chain, v2 would include a calendar popup window and a new UI element to se
 DialogFragment class. Version 1 was implemented without the calendar, as I went according to the mockup provided.
 4) Unit and Espresso tests were created as a means of testing
 5) For data storage, I am using SharedPreferences which is being handled through the UserDataHelper class
+6) Deletion of each element is handled with swiping left or right on the individual list items
